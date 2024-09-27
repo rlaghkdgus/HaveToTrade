@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e20e25128ad76448ee40705da04656, type: 3}
+  m_Name: ItemData
+  m_EditorClassIdentifier: 
+  items:
+  - sort: 0
+    stuffName: Meat
+    price: 100
+    image: {fileID: -2413806693520163455, guid: e074a9b4b276847b0b578d2c96d2c1db, type: 3}
+  - sort: 0
+    stuffName: 
+    price: 0
+    image: {fileID: 0}
+  - sort: 0
+    stuffName: 
+    price: 0
+    image: {fileID: 0}
+  - sort: 0
+    stuffName: 
+    price: 0
+    image: {fileID: 0}
+  - sort: 0
+    stuffName: 
+    price: 0
+    image: {fileID: 0}
+  - sort: 0
+    stuffName: 
+    price: 0
+    image: {fileID: 0}
+  - sort: 0
+    stuffName: 
+    price: 0
+    image: {fileID: 0}
+  - sort: 0
+    stuffName: 
+    price: 0
+    image: {fileID: 0}
+  - sort: 0
+    stuffName: 
+    price: 0
+    image: {fileID: 0}
+  - sort: 0
+    stuffName: 
+    price: 0
+    image: {fileID: 0}
