@@ -16,40 +16,15 @@ MonoBehaviour:
   - sort: 0
     stuffName: Meat
     price: 100
-    image: {fileID: -2413806693520163455, guid: e074a9b4b276847b0b578d2c96d2c1db, type: 3}
-  - sort: 0
-    stuffName: 
-    price: 0
-    image: {fileID: 0}
-  - sort: 0
-    stuffName: 
-    price: 0
-    image: {fileID: 0}
-  - sort: 0
-    stuffName: 
-    price: 0
-    image: {fileID: 0}
-  - sort: 0
-    stuffName: 
-    price: 0
-    image: {fileID: 0}
-  - sort: 0
-    stuffName: 
-    price: 0
-    image: {fileID: 0}
-  - sort: 0
-    stuffName: 
-    price: 0
-    image: {fileID: 0}
-  - sort: 0
-    stuffName: 
-    price: 0
-    image: {fileID: 0}
-  - sort: 0
-    stuffName: 
-    price: 0
-    image: {fileID: 0}
-  - sort: 0
-    stuffName: 
-    price: 0
-    image: {fileID: 0}
+    image: {fileID: 21300000, guid: 3202a30638fbc4a479fb617e565e760b, type: 3}
+    counts: 1
+  - sort: 1
+    stuffName: Ham
+    price: 300
+    image: {fileID: 21300000, guid: e041c70d3d9242e4d8ee6d4071022e61, type: 3}
+    counts: 1
+  - sort: 3
+    stuffName: Sofa
+    price: 500
+    image: {fileID: 21300000, guid: 050ba25f528743b47a269a0b08f226ef, type: 3}
+    counts: 1
