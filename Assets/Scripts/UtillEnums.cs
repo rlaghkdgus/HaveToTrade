@@ -26,3 +26,12 @@ public enum ItemSorts
     accesory
 }
 
+public enum CustomerState
+{
+    Start,
+    Idle,
+    Buy,
+    Sell,
+    End
+}
+
