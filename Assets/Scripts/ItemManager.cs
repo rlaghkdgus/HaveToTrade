@@ -12,13 +12,14 @@ public class ItemManager : Singleton<ItemManager>
     public List<pItem> playerItems;
     [Header("데이터 교환시 사용할 리스트(UI포함)")]
     public List<int> productIndex; // 랜덤인덱스 저장공간
-    public List<int> itemCountIndex;
-    public List<TMP_Text> productTexts;
-    public List<Image> productImages;
+    public List<int> itemCountIndex;// 아이템 개수 저장 공간
+    public TMP_Text productTexts; // 상품 개수 텍스트
+    public Image productImages; // 상품 이미지 리스트
 
     // 계산시 저장공간
-    private int totalPrice = 0;
-    private List<int> randIndex = new List<int>();
+    
+    public int productCount = 0;//UI 순서대로 띄우기용
+    private List<int> randIndex = new List<int>();// 다른 종류의 아이템을 뽑기위한 리스트
 
     private void Start()
     {
@@ -38,7 +39,7 @@ public class ItemManager : Singleton<ItemManager>
         }
     }
 
-    public void RandomSetItem(int sortcount)
+    public void RandomSetItem(int sortcount)//Customer스크립트에서 sortCount를받아옴
     {
         for (int i = 0; i < sortcount; i++)
         {
@@ -49,43 +50,36 @@ public class ItemManager : Singleton<ItemManager>
                 randnum = Random.Range(0, playerItems.Count);
             }
             while (randIndex.Contains(randnum)); // 이미 뽑힌 번호라면 다시 뽑기
-            randIndex.Add(randnum);
-            productIndex.Add(randnum);
+            randIndex.Add(randnum); // 뽑힌번호 저장
+            productIndex.Add(randnum); //상품 추가, 리스트의 번호로 추적할 것(추후 수정가능..아마)
         }
-        randIndex.Clear();
+        randIndex.Clear();//뽑힌번호 제거
     }
     public void SetUI()
     {
-        for(int i = 0; i <productIndex.Count; i++)
-        {
-            int randCount = Random.Range(1, 3);
-            productImages[i].sprite = playerItems[productIndex[i]].image;
-            itemCountIndex.Add(randCount);
-            productTexts[i].text = "" + itemCountIndex[i];
-        }
+     int randCount = Random.Range(1, 4);//상품의 종류당 얼마나 거래할건지 랜덤으로 설정
+     itemCountIndex.Add(randCount); //몇개 살건지 추가
+     productImages.sprite = playerItems[productIndex[productCount]].image; //상품의 이미지, 현재 최대 3개로설정
+     productTexts.text = "" + itemCountIndex[productCount];//개수 텍스트에 반영
     }
-    public void BuyProduct()
+    public void BuyProduct() //구매시
     {
-        for(int i = 0; i < productIndex.Count; i++)
+     
+        if(Player.Instance.money < playerItems[productIndex[productCount]].price)
         {
-            totalPrice += playerItems[productIndex[i]].price * itemCountIndex[i];
-        }
-        if(Player.Instance.money < totalPrice)
-        {
-            //불가능 작성
+            //불가능 작성예정
             return;
         }
-        Player.Instance.money -= totalPrice;
-        for(int i = 0; i < productIndex.Count; i++)
-        {
-            playerItems[productIndex[i]].counts += itemCountIndex[i]; 
-        }
-        ListClear();
+        Player.Instance.money -= playerItems[productIndex[productCount]].price; // 물건 비용 지불
+        playerItems[productIndex[productCount]].counts += itemCountIndex[productCount]; // 똑같이 productIndex의 값에서 추적 후 개수 삽입 
+        productCount++;
+        
     }
-    public void ListClear()
+    public void ListClear()//리스트 제거용
     {
         productIndex.Clear();
         itemCountIndex.Clear();
+        productCount = 0;
     }
 
 }

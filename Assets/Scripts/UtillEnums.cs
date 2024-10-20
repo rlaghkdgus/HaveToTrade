@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//사용할 열거형 정리, 주로 옵저버패턴에 사용
 public enum VilageType 
 {
     Mountain,
@@ -28,8 +29,10 @@ public enum ItemSorts
 
 public enum CustomerState
 {
-    Start,
     Idle,
+    Start,
+    ItemSet,
+    SetUI,
     Buy,
     Sell,
     End
