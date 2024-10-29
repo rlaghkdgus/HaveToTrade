@@ -3,20 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //사용할 열거형 정리, 주로 옵저버패턴에 사용
-public enum VilageType 
-{
-    Mountain,
-    Beach
-}
-
-public enum FameType
-{
-    food,
-    pFood,
-    clothes,
-    furniture,
-    accesory
-}
 
 public enum ItemSorts
 {
@@ -26,7 +12,6 @@ public enum ItemSorts
     furniture,
     accesory
 }
-
 public enum CustomerState
 {
     Idle,
@@ -35,6 +20,7 @@ public enum CustomerState
     SetUI,
     Buy,
     Sell,
+    Reject,
     End
 }
 

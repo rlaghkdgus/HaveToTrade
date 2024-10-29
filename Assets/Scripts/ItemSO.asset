@@ -13,18 +13,23 @@ MonoBehaviour:
   m_Name: ItemSO
   m_EditorClassIdentifier: 
   items:
-  - price: 100
+  - price: 250
     stuffName: Meat
-    counts: 0
     sort: 0
     image: {fileID: 21300000, guid: 3202a30638fbc4a479fb617e565e760b, type: 3}
   - price: 300
     stuffName: Ham
-    counts: 0
     sort: 1
     image: {fileID: 21300000, guid: e041c70d3d9242e4d8ee6d4071022e61, type: 3}
   - price: 500
     stuffName: Sofa
-    counts: 0
     sort: 3
     image: {fileID: 21300000, guid: 050ba25f528743b47a269a0b08f226ef, type: 3}
+  - price: 200
+    stuffName: Apple
+    sort: 0
+    image: {fileID: 21300000, guid: 1361b7b0e2895c44ca5486d7625959d6, type: 3}
+  - price: 150
+    stuffName: Oats
+    sort: 0
+    image: {fileID: 21300000, guid: 5d68c3c900b2d2a438a03f1fa386f8bd, type: 3}
