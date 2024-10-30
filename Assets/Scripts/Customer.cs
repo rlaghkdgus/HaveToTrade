@@ -12,7 +12,7 @@ public class Customer : MonoBehaviour
     public int cusCount;
     [Header("손님 세부 옵션")]
     public float speed; //손님 이동속도
-    public float buyDelay; // 손님 구매 딜레이
+    public float tradeDelay; // 손님 거래 딜레이
     public float rejectDelay; // 손님 거절 후 다음 거래 딜레이
     public float fadeDuration; // 페이드 아웃 지속 시간
     [Header("몇개의 종류를 거래할건지")]
@@ -20,10 +20,12 @@ public class Customer : MonoBehaviour
     [Header("손님 외형 프리팹, 생성 및 퇴장 위치 설정")]
     public List<GameObject> customerPrefab;//손님 프리팹
     public List<Transform> customerTransform;// 생성, 거래위치, 퇴장
-    
+
 
     [Header("손님 거래창")]
     public GameObject CustomerUI;
+    public GameObject BuyUI;
+    public GameObject SellUI;
     public Data<CustomerState> cState = new Data<CustomerState>();//상태별 이벤트
 
     private GameObject newCustomer;
@@ -40,6 +42,7 @@ public class Customer : MonoBehaviour
         cState.onChange += CustomerSetItem;
         cState.onChange += CustomerSetUI;
         cState.onChange += BuyItem;
+        cState.onChange += SellItem;
         cState.onChange += RejectItem;
         cState.onChange += CustomerExit;
     }
@@ -85,10 +88,18 @@ public class Customer : MonoBehaviour
         if(_cState == CustomerState.SetUI)//UI로 표현 및 ItemManager의 productCount로 퇴장 판단
         {
             if (buyOrSell == true)
+            {
                 ItemManager.Instance.SetUI();
+                BuyUI.SetActive(true);
+                CustomerUI.SetActive(true);
+            }
             else
+            {
                 ItemManager.Instance.SetSellUI();
-            CustomerUI.SetActive(true);
+                SellUI.SetActive(true);
+                CustomerUI.SetActive(true);
+            }
+
         }
     }
     private void BuyItem(CustomerState _cState)
@@ -98,9 +109,16 @@ public class Customer : MonoBehaviour
             StartCoroutine(DelayBuy());
         }
     }
+    private void SellItem(CustomerState _cState)
+    {
+        if(_cState == CustomerState.Sell)//판매
+        {
+            StartCoroutine(DelaySell());
+        }
+    }
     private void RejectItem(CustomerState _cState)
     {
-        if(_cState == CustomerState.Reject)
+        if(_cState == CustomerState.Reject)//거절
         {
             StartCoroutine(DelayReject());
         }
@@ -171,14 +189,27 @@ public class Customer : MonoBehaviour
     {
         ItemManager.Instance.BuyProduct();
         CustomerUI.SetActive(false);
+        BuyUI.SetActive(false);
         Player.Instance.RenewMoney();
-        yield return new WaitForSecondsRealtime(buyDelay);
+        yield return new WaitForSecondsRealtime(tradeDelay);
         if (ItemManager.Instance.productCount == ItemManager.Instance.productIndex.Count)
             cState.Value = CustomerState.End;
         else
         cState.Value = CustomerState.SetUI;
     }
-    IEnumerator TradeEnd()
+    IEnumerator DelaySell()//판매지연
+    {
+        ItemManager.Instance.SellProduct();
+        CustomerUI.SetActive(false);
+        SellUI.SetActive(false);
+        Player.Instance.RenewMoney();
+        yield return new WaitForSecondsRealtime(tradeDelay);
+        if (ItemManager.Instance.productCount == ItemManager.Instance.productIndex.Count)
+            cState.Value = CustomerState.End;
+        else
+            cState.Value = CustomerState.SetUI;
+    }
+    IEnumerator TradeEnd()//거래 종료
     {
         ItemManager.Instance.ListClear();
         yield return new WaitForSeconds(fadeDuration*1.5f);
@@ -196,6 +227,10 @@ public class Customer : MonoBehaviour
     {
         ItemManager.Instance.productCount++;//거절시 다음상품으로 넘김
         CustomerUI.SetActive(false);
+        if(buyOrSell == true)
+            BuyUI.SetActive(false);
+        else
+            SellUI.SetActive(false);
         yield return new WaitForSeconds(rejectDelay);
         if (ItemManager.Instance.productCount == ItemManager.Instance.productIndex.Count)
             cState.Value = CustomerState.End;

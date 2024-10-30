@@ -11,7 +11,7 @@ public class ItemManager : Singleton<ItemManager>
     [Header("플레이어 데이터 아이템")]
     public List<pItem> playerItems;
     [Header("품목별 개수 제한")]
-    public int itemCountLimit;// 품목별 개수 제한, 해당 값의 -1만큼 랜덤. 예시: 4삽입시 랜덤값은 1~3.
+    public int itemCountLimit;// 품목별 개수 제한
     [Header("데이터 교환시 사용할 리스트(UI포함)")]
     public List<int> productIndex; // 랜덤인덱스 저장공간
     public List<int> itemCountIndex;// 아이템 개수 저장 공간
@@ -71,7 +71,7 @@ public class ItemManager : Singleton<ItemManager>
     #region 거래 UI세팅
     public void SetUI()//구매시 UI
     {
-     int randCount = Random.Range(1, itemCountLimit);//상품의 종류당 얼마나 거래할건지 랜덤으로 설정
+     int randCount = Random.Range(1, itemCountLimit+1);//상품의 종류당 얼마나 거래할건지 랜덤으로 설정
      itemCountIndex.Add(randCount); //몇개 살건지 추가
      productImages.sprite = itemSO.items[productIndex[productCount]].image; //상품의 이미지
      productTexts.text = "" + itemCountIndex[productCount];//개수 텍스트에 반영
@@ -79,6 +79,8 @@ public class ItemManager : Singleton<ItemManager>
     public void SetSellUI()//판매시 UI
     {
         int randCount;
+        if(productIndex[productCount] >= playerItems.Count)
+            productIndex[productCount] = Random.Range(0, playerItems.Count);
         int currentProductIndex = productIndex[productCount];
         if(playerItems[currentProductIndex].counts > itemCountLimit)
         {
