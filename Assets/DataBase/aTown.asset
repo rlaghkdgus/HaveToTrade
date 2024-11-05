@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28b90c41302d12248a2395697a01ca39, type: 3}
+  m_Script: {fileID: 11500000, guid: 60a5e859ebf3941448b8c4e90eddd4c8, type: 3}
   m_Name: aTown
   m_EditorClassIdentifier: 
-  TownName: A
-  TownRegion: 1
+  TownName: a
+  TownRegion: 0
   TownPrefab: {fileID: 5181851120068721351, guid: f06defb450f98d24a927f406fd2daf61, type: 3}

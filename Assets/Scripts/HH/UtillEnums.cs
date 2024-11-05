@@ -21,6 +21,6 @@ public enum CustomerState
     Buy,
     Sell,
     Reject,
-    End
+    End,
 }
 
