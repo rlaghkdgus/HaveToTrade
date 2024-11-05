@@ -28,6 +28,7 @@ public class Customer : MonoBehaviour
     public GameObject SellUI;
     public Data<CustomerState> cState = new Data<CustomerState>();//상태별 이벤트
 
+    [SerializeField] GameObject GoTownButton;
     private GameObject newCustomer;
     private bool buyOrSell;//참일때구매, 거짓일때판매
     void Start()
@@ -216,6 +217,7 @@ public class Customer : MonoBehaviour
         if (cusCount == 0)
         {
             cState.Value = CustomerState.Idle;
+            GoTownButton.SetActive(true);
             //종료시 나올 UI및 씬이동
         }
         else

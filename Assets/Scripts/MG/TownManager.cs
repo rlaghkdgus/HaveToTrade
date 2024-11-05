@@ -8,8 +8,9 @@ public class TownManager : MonoBehaviour
     [SerializeField] private TownDB nextTown; // 다음 마을 정보
 
     [SerializeField] private GameObject TownClone; // 현재 마을
-
+    [SerializeField] private GameObject GoTradeButton;
     private Travel travel;
+
 
     private void Awake()
     {
@@ -53,8 +54,11 @@ public class TownManager : MonoBehaviour
         curTown = nextTown;
         nextTown = null;
         TownClone = GameObject.FindGameObjectWithTag("Town");
-        var MapButton = GameObject.FindWithTag("Canvas").transform.Find("OpenMap");
-        MapButton.gameObject.SetActive(true);
+        //var MapButton = GameObject.FindWithTag("Canvas").transform.Find("OpenMap");
+        //MapButton.gameObject.SetActive(true);
         Debug.Log("업데이트 완료");
+        GoTradeButton.SetActive(true);
+        
     }
+    
 }
