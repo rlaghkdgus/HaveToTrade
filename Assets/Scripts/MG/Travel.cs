@@ -21,7 +21,6 @@ public class Travel : MonoBehaviour
     private int index_M = 1;
     private int index_B = 1;
 
-    public GameObject Map; // ¸Ê ÇÁ¸®ÆÕ
     public GameObject[] Road; // ±æ ÇÁ¸®ÆÕ ¹è¿­
 
     [SerializeField] private bool OnMove = false;
@@ -29,14 +28,7 @@ public class Travel : MonoBehaviour
     [SerializeField] private GameObject nextTown;
     public GameObject nextTownClone;
 
-    public event Action MoveCompleted;
-
-    public void MapOpen() // ¸Ê ¿©´Â ±â´É
-    {
-        // ¸Ê ÇÁ¸®ÆÕ µ¿Àû»ý¼º
-        var map = Instantiate<GameObject>(Map, new Vector3(0, 0, 0), Quaternion.identity);
-        map.transform.SetParent(this.transform);
-    }
+    //public event Action MoveCompleted;
 
     public void CombinationRoad()
     {
@@ -181,7 +173,8 @@ public class Travel : MonoBehaviour
                 OnMove = false;
                 InitRoad();
 
-                MoveCompleted?.Invoke();
+                TownManager.Instance.UpdateTown();
+                //MoveCompleted?.Invoke();
             }
         }
     }
