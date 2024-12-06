@@ -5,8 +5,18 @@ using UnityEngine.UI;
 using TMPro;
 /*
  * 거래 진입 시 고객의 수, 거래 물품의 종류 및 숫자를 정할 공간
- * 손님 행동패턴 요약 : 입장(Start) -> 대기(Idle) -> 구매 or 판매 -> 퇴장(End) -> 입장, 손님수 만큼 반복
+ * 손님 행동패턴 요약 : 입장(Start) -> 대기(Idle) -> 아이템매니저에서 가져온 아이템으로 UI세팅-> 흥정(선택)-> 구매 or 판매 -> 퇴장(End) -> 입장, 손님수 만큼 반복
  */
+[System.Serializable]
+public class customerPrefab
+{
+    public int customerNum;
+    public string customerName;
+    public string customerDescription;
+    public GameObject[] cusPrefab;
+    public float cusBargainChance;
+    public int cusProductCount;
+}
 public class Customer : MonoBehaviour
 {
     [Header("손님수, 현재는 시작시 랜덤 지정")]
@@ -22,8 +32,8 @@ public class Customer : MonoBehaviour
     public float bargainChance; // 해당 단위를 넘을때마다 흥정확률이 몇%씩 떨어질지
     [Header("몇개의 종류를 거래할건지")]
     public int tradeSortCount; // 손님이 몇개의 종류를 거래할건지
-    [Header("손님 외형 프리팹, 생성 및 퇴장 위치 설정")]
-    public List<GameObject> customerPrefab;//손님 프리팹
+    [Header("손님 프리팹(손님 별 기능 및 외형),생성 및 퇴장 위치 설정")]
+    public List<customerPrefab> cusList;
     public List<Transform> customerTransform;// 생성, 거래위치, 퇴장
 
 
@@ -34,6 +44,7 @@ public class Customer : MonoBehaviour
     public GameObject BargainUI;
     [SerializeField] private TMP_Text cText;
     [SerializeField] private TMP_Text pTxt;
+    [SerializeField] private TMP_Text pcTxt; // 플레이어가 들고있는 상품 개수 카운트
     [SerializeField] private TMP_InputField bargainField;
     [SerializeField] private Image pImg;
     [Header("흥정시 On/Off 오브젝트")]
@@ -48,14 +59,17 @@ public class Customer : MonoBehaviour
     public Data<CustomerState> cState = new Data<CustomerState>();//상태별 이벤트
     private GameObject newCustomer;
     private int bargainValue;
+    public static int randcusnum = 0;
     public static TMP_Text productTexts;
     public static Image productImages;
+    public static TMP_Text playerCountTexts;// 플레이어가 들고있는 상품 개수 카운트
     public static TMP_Text costText;//가격 텍스트, product랑 price의 앞글자가 겹쳐서..
     public static bool buyOrSell;//참일때구매, 거짓일때판매
     void Start()
     {
         productTexts = pTxt;
         productImages = pImg;
+        playerCountTexts = pcTxt;
         costText = cText;
         cusCount = Random.Range(3, 6);
         Player.Instance.RenewMoney();
@@ -95,8 +109,11 @@ public class Customer : MonoBehaviour
     {
         if(_cState == CustomerState.Start)//손님 객체 생성후 이동
         {
-            int randnum = Random.Range(0,customerPrefab.Count);
-            newCustomer = Instantiate(customerPrefab[randnum], customerTransform[0]);
+            randcusnum = Random.Range(0,cusList.Count);
+            randcusnum = 1; //테스트용, 주석해야함.
+            int randcusprefab = Random.Range(0, cusList[randcusnum].cusPrefab.Length);
+            newCustomer = Instantiate(cusList[randcusnum].cusPrefab[randcusprefab], customerTransform[0]);
+            CusBargainPointSet(randcusnum);
             StartCoroutine(MoveCustomerToPosition(newCustomer, customerTransform[1].position));
         }
     }
@@ -165,13 +182,14 @@ public class Customer : MonoBehaviour
     {
         if(_cState == CustomerState.End)//종료
         {
+            initialChance = 100f;
             StartCoroutine(MoveAndFadeOutCustomer(newCustomer, customerTransform[2].position, fadeDuration)); //퇴장 및 페이드 아웃
             cusCount--;
             StartCoroutine(TradeEnd());
         }
     }
     #endregion
-    #region 손님 기능
+    #region 손님 공통 기능
     public void BuyOrSell()//구매 혹은 판매 신호(랜덤)
     {
         if (ItemManager.Instance.playerItems.Count == 0)
@@ -188,7 +206,7 @@ public class Customer : MonoBehaviour
     
     public void BargainStart()//버튼으로 흥정시작
     {
-        StartCoroutine(BargainCycle());
+        StartCoroutine("BargainCycle");
     }
     IEnumerator BargainCycle()//흥정과정
     {
@@ -197,7 +215,7 @@ public class Customer : MonoBehaviour
             ItemManager.Instance.SetBargainPrice(initialChance, bargainValue, bargainPoint, bargainChance);
             BargainUI.SetActive(false);
             bargainField.text = "";
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(1.0f);
             if (ItemManager.Instance.bargainSuccess == true)//흥정성공시 UI변경
             {
                 bargainButton.SetActive(false);
@@ -206,6 +224,8 @@ public class Customer : MonoBehaviour
             }
             else
             {
+                CusBargainReject(randcusnum);
+                yield return null;
                 bargainButton.SetActive(false);
                 CustomerUI.SetActive(true);
             }
@@ -317,5 +337,25 @@ public class Customer : MonoBehaviour
         CustomerUI.SetActive(true);
     }
     #endregion
+    #region 손님 개인 기능
 
+    private void CusBargainPointSet(int customnum)
+    {
+        initialChance += cusList[customnum].cusBargainChance;
+    }
+    
+    private void CusBargainReject(int customnum)
+    {
+        switch(customnum)
+        {
+            case 1:
+                if(ItemManager.Instance.bargainSuccess == false)
+                {
+                    StopCoroutine("BargainCycle");
+                    cState.Value = CustomerState.End;
+                }
+                break;
+        }
+    }
+    #endregion
 }

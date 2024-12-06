@@ -25,8 +25,8 @@ public class ItemManager : Singleton<ItemManager>
     private List<int> randIndex = new List<int>();// 다른 종류의 아이템을 뽑기위한 리스트
     private int bargainPrice = 0; //흥정한 가격
     public bool bargainSuccess = false;
-    private int currentProductIndex = 0;
-
+    public int currentProductIndex = 0;
+    public pItem buyItem;
    private static ItemManager instance;
 
     private void Awake()
@@ -74,7 +74,7 @@ public class ItemManager : Singleton<ItemManager>
         {
            randnum = Random.Range(0, playerItems.Count);
         }
-        while (randIndex.Contains(randnum) || playerItems[randnum].counts == 0); // 이미 뽑힌 번호 혹은 플레이어가 물건을 가지고 있지 않은 경우 다시뽑기
+        while (randIndex.Contains(randnum)); // 이미 뽑힌 번호 혹은 플레이어가 물건을 가지고 있지 않은 경우 다시뽑기
         randIndex.Add(randnum); // 뽑힌번호 저장
         productIndex.Add(randnum); //상품 추가, 리스트의 번호로 추적할 것(추후 수정가능..아마)
      }
@@ -92,10 +92,10 @@ public class ItemManager : Singleton<ItemManager>
     }
     public void SetSellUI()//판매시 UI
     {
+        if (productIndex[productCount] >= playerItems.Count)
+            productIndex[productCount] = Random.Range(0, playerItems.Count);
         currentProductIndex = productIndex[productCount];
         int randCount;
-        if(productIndex[productCount] >= playerItems.Count)
-            productIndex[productCount] = Random.Range(0, playerItems.Count);
         if (playerItems[currentProductIndex].counts > itemCountLimit)
         {
             randCount = Random.Range(1,itemCountLimit+1);
@@ -107,8 +107,6 @@ public class ItemManager : Singleton<ItemManager>
         PutInfo(randCount);
     }
     #endregion
-
-
     #region 구매및 판매 실제 과정
     public void BuyProduct() //구매시
     {
@@ -121,15 +119,16 @@ public class ItemManager : Singleton<ItemManager>
 
         if (Player.Instance.money < currentPrice)
         {
+            productCount++;
+            BargainClear();
             //불가능 작성예정
             return;
         }
         Player.Instance.money -= currentPrice; // 물건 비용 지불
 
-        pItem newItem = new pItem(itemSO.items[currentProductIndex]);
 
         // playerItems 리스트에 같은 아이템이 있는지 확인
-        pItem existingItem = playerItems.Find(item => item.stuffName == newItem.stuffName);
+        pItem existingItem = playerItems.Find(item => item.stuffName == buyItem.stuffName);
 
         if (existingItem != null)
         {
@@ -139,19 +138,26 @@ public class ItemManager : Singleton<ItemManager>
         else
         {
             // 새로운 아이템이라면 리스트에 추가
-            newItem.counts = itemCountIndex[productCount];
-            playerItems.Add(newItem);
+            buyItem.counts = itemCountIndex[productCount];
+            playerItems.Add(buyItem);
         }
         productCount++;
+        buyItem = null;
+        BargainClear();
     }
     public void SellProduct()//상품 판매
     {
-        int currentPrice = playerItems[currentProductIndex].price * itemCountIndex[productCount];
+        int currentPrice; 
+        if(bargainSuccess == true)
+            currentPrice = bargainPrice * itemCountIndex[productCount];
+        else
+            currentPrice = playerItems[currentProductIndex].price * itemCountIndex[productCount];
         Player.Instance.money += currentPrice;
         playerItems[currentProductIndex].counts -= itemCountIndex[productCount];
         if(playerItems[currentProductIndex].counts <= 0)
             playerItems.RemoveAt(currentProductIndex);
         productCount++;
+        BargainClear();
     }
 
     #endregion
@@ -165,23 +171,25 @@ public class ItemManager : Singleton<ItemManager>
         if (Customer.buyOrSell== true)//구매일때
         {
             diff = itemSO.items[currentProductIndex].price - bargainValue;//받아온 흥정값과 아이템값 차이를 계산 후
-            chancePoint = diff / bargainPoint; //차이와 단위를 나눔
-            totalChance = initialChance -(chancePoint * bargainPercent); //초기확률에 계산된 확률단위와 흥정단위당%값을뺀 값을 계산, 실제 흥정 확률
-            
-            if(totalChance >= randomValue)//결과 확률이 random으로 나온 값보다 높으면 성공, ex) 확률이 30이면 random값으로 31이 나왔을때 실패, 랜덤값이 29이면 성공
-            {
-                bargainPrice = bargainValue;
-                Customer.costText.text = "price : " + bargainPrice;
-                bargainSuccess = true;
-            }
-            else
-            {
-                bargainSuccess = false;
-            }
         }
         else//판매일때
         {
+           if(bargainValue < 0)//물건팔때는 0원으로 제한...
+                bargainValue = 0;
+            diff = bargainValue - playerItems[currentProductIndex].price; // 판매, 흥정가가 더 높아야 하므로 역으로 계산
+        }
+        chancePoint = diff / bargainPoint; //차이와 단위를 나눔
+        totalChance = initialChance - (chancePoint * bargainPercent); //초기확률에 계산된 확률단위와 흥정단위당%값을뺀 값을 계산, 실제 흥정 확률
 
+        if (totalChance >= randomValue)//결과 확률이 random으로 나온 값보다 높으면 성공, ex) 확률이 30이면 random값으로 31이 나왔을때 실패, 랜덤값이 29이면 성공
+        {
+            bargainPrice = bargainValue;
+            Customer.costText.text = "price : " + bargainPrice;
+            bargainSuccess = true;
+        }
+        else
+        {
+            bargainSuccess = false;
         }
     }
     #endregion
@@ -200,10 +208,49 @@ public class ItemManager : Singleton<ItemManager>
     public void PutInfo(int randCount)//SetUI과정에서 중복되는부분 코드줄이기
     {
         itemCountIndex.Add(randCount); //몇개 살건지 추가
-        Customer.productImages.sprite = itemSO.items[productIndex[productCount]].image; //상품의 이미지
+        if (Customer.buyOrSell == true)
+        {
+            buyItem = new pItem (itemSO.items[currentProductIndex]);
+            pItem countItem = playerItems.Find(item => item.stuffName == buyItem.stuffName); // 사려고하는 아이템 찾기
+            if (countItem != null)//만약 있다면
+            {
+                Customer.playerCountTexts.text = "" + countItem.counts;
+            }
+            else //없다면
+            {
+                Customer.playerCountTexts.text = "" + 0; //플레이어가 들고있는 개수텍스트 에 0 삽입
+            }
+            Customer.productImages.sprite = itemSO.items[currentProductIndex].image; //상품의 이미지
+            Customer.costText.text = "price : " + itemSO.items[currentProductIndex].price;//; 가격 텍스트에 반영
+        }
+        else
+        {
+            Customer.playerCountTexts.text = "" + playerItems[currentProductIndex].counts;
+            Customer.productImages.sprite = playerItems[currentProductIndex].image;
+            Customer.costText.text = "price : " + playerItems[currentProductIndex].price;
+        }
+        CusProductCountSet();
         Customer.productTexts.text = "" + itemCountIndex[productCount];//개수 텍스트에 반영
-        Customer.costText.text = "price : " + itemSO.items[productIndex[productCount]].price;//; 가격 텍스트에 반영
     }
     #endregion
-
+    private void CusProductCountSet()
+    {
+        switch (Customer.randcusnum)
+        {
+            case 1:
+                if (buyItem.sort == ItemSorts.food && Customer.buyOrSell == true)
+                {
+                    itemCountIndex[productCount] = itemCountIndex[productCount] + 5;
+                }
+               // else if (playerItems == null || playerItems.Count == 0)
+                  //  return;
+                else if (Customer.buyOrSell == false && playerItems[currentProductIndex].sort == ItemSorts.food)//순서문제. 어짜피 buyorsell이 판매로 지정된이상 playerItem에는 무조건 아이템이 하나는 있으므로.
+                {
+                    itemCountIndex[productCount] = itemCountIndex[productCount] + 5;
+                    if (itemCountIndex[productCount] >= playerItems[currentProductIndex].counts)
+                        itemCountIndex[productCount] = playerItems[currentProductIndex].counts;
+                }
+                break;
+        }
+    }
 }
