@@ -9,6 +9,7 @@ public class ItemData
     public string stuffName;
     public ItemSorts sort;
     public Sprite image;
+    public int weight;
 }
 [CreateAssetMenu(fileName = "ItemSO", menuName = "Scriptable Object/ItemSO")]
 public class ItemSO : ScriptableObject

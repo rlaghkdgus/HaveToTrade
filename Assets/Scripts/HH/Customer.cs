@@ -137,7 +137,7 @@ public class Customer : MonoBehaviour
     #region 손님 기능
     public void BuyOrSell()//구매 혹은 판매 신호(랜덤)
     {
-        if (ItemManager.Instance.playerItems.Count == 0)
+        if (ItemManager.Instance.playerInventory.inventory.Count == 0)
         {
             buyOrSell = true;
             return;
