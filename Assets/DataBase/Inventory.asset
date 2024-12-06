@@ -13,25 +13,13 @@ MonoBehaviour:
   m_Name: Inventory
   m_EditorClassIdentifier: 
   PublicMaxWeight: 800
-  PublicCurrentWeight: 410
+  PublicCurrentWeight: 50
   inventory:
   - price: 300
     stuffName: Ham
     sort: 1
     image: {fileID: 21300000, guid: e041c70d3d9242e4d8ee6d4071022e61, type: 3}
     weight: 50
-    counts: 6
-  - price: 500
-    stuffName: Sofa
-    sort: 3
-    image: {fileID: 21300000, guid: 050ba25f528743b47a269a0b08f226ef, type: 3}
-    weight: 70
-    counts: 1
-  - price: 250
-    stuffName: Meat
-    sort: 0
-    image: {fileID: 21300000, guid: 3202a30638fbc4a479fb617e565e760b, type: 3}
-    weight: 40
     counts: 1
   UpgradeInfo: {fileID: 11400000, guid: 670bb50a050bc364fa934cb31e4b952c, type: 2}
   current_Tier: 2
