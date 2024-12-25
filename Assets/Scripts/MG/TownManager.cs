@@ -14,8 +14,25 @@ public class TownManager : MonoBehaviour
     private void Awake()
     {
         travel = GetComponent<Travel>();
+<<<<<<< Updated upstream
         // 게임 시작 시 현재 마을 동적 생성
         TownClone = Instantiate<GameObject>(curTown.TownPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+=======
+
+        TownGenerate();
+    }
+
+    public static TownManager Instance
+    {
+        get
+        {
+            if(instance == null)
+            {
+                return null;
+            }
+            return instance;
+        }
+>>>>>>> Stashed changes
     }
 
     private void OnEnable() // Town 버튼 이벤트 구독
