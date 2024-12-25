@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class TownManager : MonoBehaviour
 {
+    private static TownManager instance;
+
     [SerializeField] private TownDB curTown; // 현재 마을 정보
     [SerializeField] private TownDB nextTown; // 다음 마을 정보
 
     [SerializeField] private GameObject TownClone; // 현재 마을
-
+    public GameObject GoTradeButton;
     private Travel travel;
+
 
     private void Awake()
     {
-        travel = GetComponent<Travel>();
-<<<<<<< Updated upstream
-        // 게임 시작 시 현재 마을 동적 생성
-        TownClone = Instantiate<GameObject>(curTown.TownPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-=======
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
+        travel = GetComponent<Travel>();
         TownGenerate();
     }
 
@@ -32,18 +40,15 @@ public class TownManager : MonoBehaviour
             }
             return instance;
         }
->>>>>>> Stashed changes
     }
 
     private void OnEnable() // Town 버튼 이벤트 구독
     {
-        travel.MoveCompleted += UpdateTown;
         Town.OnTownSelected += HandleTownSelected;
     }
 
     private void OnDisable() // 해제
     {
-        travel.MoveCompleted -= UpdateTown;
         Town.OnTownSelected -= HandleTownSelected;
     }
 
@@ -65,7 +70,14 @@ public class TownManager : MonoBehaviour
         }
     }
 
-    private void UpdateTown()
+    public void TownGenerate()
+    {
+        // 현재 마을 동적 생성
+        TownClone = Instantiate<GameObject>(curTown.TownPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        Debug.Log("타운 생성 완료");
+    }
+
+    public void UpdateTown()
     {
         curTown = nextTown;
         nextTown = null;
@@ -73,5 +85,8 @@ public class TownManager : MonoBehaviour
         var MapButton = GameObject.FindWithTag("Canvas").transform.Find("OpenMap");
         MapButton.gameObject.SetActive(true);
         Debug.Log("업데이트 완료");
+        GoTradeButton.SetActive(true);
+        
     }
+    
 }
