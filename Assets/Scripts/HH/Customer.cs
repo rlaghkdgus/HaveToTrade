@@ -57,7 +57,8 @@ public class Customer : MonoBehaviour
     public TMP_Text talkText; // 대화텍스트
     [SerializeField] Transform textTransform;
     [SerializeField] float typingDelay;
-
+    [Header("거래 후 버튼 관리")]
+    [SerializeField] GameObject buttonEdit;
     //static,private 옵저버패턴 변수 등 인스펙터에 안보이는 요소들
     public Data<CustomerState> cState = new Data<CustomerState>();//상태별 이벤트
     private GameObject newCustomer;
@@ -322,6 +323,7 @@ public class Customer : MonoBehaviour
         if (cusCount <= 0)
         {
             cState.Value = CustomerState.Idle;
+            buttonEdit.SetActive(true);
         }
         else
         {
