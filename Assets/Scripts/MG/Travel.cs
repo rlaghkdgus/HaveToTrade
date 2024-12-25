@@ -7,13 +7,18 @@ using UnityEngine;
 
 public class Travel : MonoBehaviour
 {
+    [Header("배경 재생성 간격")]
     [SerializeField] private float interval = 17.8f; // 배경 재생성 간격
+
+    [Header("각 레이어 속도, F = 맨앞, M = 중간, B = 맨뒤")]
     [SerializeField] private float speed_F = 4f; // 맨 앞 레이어 속도
     [SerializeField] private float speed_M = 3f; // 중간 레이어 속도
     [SerializeField] private float speed_B = 2f; // 맨 뒤 레이어 속도
 
+    [Header("다음 마을 생성 타이밍")]
     [SerializeField] private int NextIndex = 0; // 길 생성을 멈추고 다음 마을을 생성할 타이밍을 재는 변수
 
+    [Header("각 레이어 리스트")]
     [SerializeField] private List<GameObject> ForwardList = new List<GameObject>(); // 맨 앞 레이어 리스트
     [SerializeField] private List<GameObject> MiddleList = new List<GameObject>(); // 중간 레이어 리스트
     [SerializeField] private List<GameObject> BackList = new List<GameObject>(); // 맨 뒤 레이어 리스트
@@ -21,8 +26,12 @@ public class Travel : MonoBehaviour
     private int index_M = 1;
     private int index_B = 1;
 
+    public GameObject Map; // 맵 프리팹
+
+    [Header("길 프리팹(임시)")]
     public GameObject[] Road; // 길 프리팹 배열
 
+    [Header("마을 이동, 생성 관련")]
     [SerializeField] private bool OnMove = false;
     [SerializeField] private GameObject curTownClone;
     [SerializeField] private GameObject nextTown;

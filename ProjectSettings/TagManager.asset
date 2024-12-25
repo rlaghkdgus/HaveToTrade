@@ -3,14 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Town
-  - Road
-  - Map
-  - SceneManage
-  - Canvas
-  - S_Inven
-  - B_Inven
+  tags: []
   layers:
   - Default
   - TransparentFX
