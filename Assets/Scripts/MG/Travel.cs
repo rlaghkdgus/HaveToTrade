@@ -26,11 +26,9 @@ public class Travel : MonoBehaviour
     private int index_M = 1;
     private int index_B = 1;
 
-<<<<<<< Updated upstream
     public GameObject Map; // 맵 프리팹
-=======
+
     [Header("길 프리팹(임시)")]
->>>>>>> Stashed changes
     public GameObject[] Road; // 길 프리팹 배열
 
     [Header("마을 이동, 생성 관련")]
