@@ -53,7 +53,10 @@ public class Customer : MonoBehaviour
     [Header("마을 버튼")]
     [SerializeField] GameObject GoTownButton;
 
-
+    [Header("손님 대화")]
+    public TMP_Text talkText; // 대화텍스트
+    [SerializeField] Transform textTransform;
+    [SerializeField] float typingDelay;
 
     //static,private 옵저버패턴 변수 등 인스펙터에 안보이는 요소들
     public Data<CustomerState> cState = new Data<CustomerState>();//상태별 이벤트
@@ -114,8 +117,12 @@ public class Customer : MonoBehaviour
     {
         if(_cState == CustomerState.Start)//손님 객체 생성후 이동
         {
+            if(cusCount <= 0)
+            {
+                cusCount = Random.Range(3, 6);
+            }
             randcusnum = Random.Range(0,cusList.Count);
-            randcusnum = 1; //테스트용, 주석해야함.
+            //randcusnum = 1; //테스트용, 주석해야함.
             int randcusprefab = Random.Range(0, cusList[randcusnum].cusPrefab.Length);
             newCustomer = Instantiate(cusList[randcusnum].cusPrefab[randcusprefab], customerTransform[0]);
             CusBargainPointSet(randcusnum);
@@ -221,7 +228,7 @@ public class Customer : MonoBehaviour
             ItemManager.Instance.SetBargainPrice(initialChance, bargainValue, bargainPoint, bargainChance);
             BargainUI.SetActive(false);
             bargainField.text = "";
-            yield return new WaitForSecondsRealtime(1.0f);
+            yield return YieldCache.WaitForSeconds(1.0f);
             if (ItemManager.Instance.bargainSuccess == true)//흥정성공시 UI변경
             {
                 bargainButton.SetActive(false);
@@ -289,7 +296,8 @@ public class Customer : MonoBehaviour
         CustomerUI.SetActive(false);
         BuyUI.SetActive(false);
         Player.Instance.RenewMoney();
-        yield return new WaitForSecondsRealtime(tradeDelay);
+        //yield return Typing("wow!");
+        yield return YieldCache.WaitForSeconds(tradeDelay);
         if (ItemManager.Instance.productCount == ItemManager.Instance.productIndex.Count)
             cState.Value = CustomerState.End;
         else
@@ -301,7 +309,7 @@ public class Customer : MonoBehaviour
         CustomerUI.SetActive(false);
         SellUI.SetActive(false);
         Player.Instance.RenewMoney();
-        yield return new WaitForSecondsRealtime(tradeDelay);
+        yield return YieldCache.WaitForSecondsRealTime(tradeDelay);
         if (ItemManager.Instance.productCount == ItemManager.Instance.productIndex.Count)
             cState.Value = CustomerState.End;
         else
@@ -310,12 +318,10 @@ public class Customer : MonoBehaviour
     IEnumerator TradeEnd()//거래 종료
     {
         ItemManager.Instance.ListClear();
-        yield return new WaitForSeconds(fadeDuration*1.5f);
-        if (cusCount == 0)
+        yield return YieldCache.WaitForSeconds(fadeDuration * 1.5f);
+        if (cusCount <= 0)
         {
             cState.Value = CustomerState.Idle;
-            GoTownButton.SetActive(true);
-            //종료시 나올 UI및 씬이동
         }
         else
         {
@@ -330,12 +336,25 @@ public class Customer : MonoBehaviour
             BuyUI.SetActive(false);
         else
             SellUI.SetActive(false);
-        yield return new WaitForSeconds(rejectDelay);
+        yield return YieldCache.WaitForSeconds(rejectDelay);
         if (ItemManager.Instance.productCount == ItemManager.Instance.productIndex.Count)
             cState.Value = CustomerState.End;
         else
             cState.Value = CustomerState.SetUI;
     }
+    #region 손님 대사 효과
+    IEnumerator Typing(string talk)
+    {
+        talkText.text = null;
+        for(int i = 0; i< talk.Length; i++)
+        {
+            talkText.text += talk[i];
+            yield return YieldCache.WaitForSeconds(typingDelay);
+        }
+        talkText.text = null;
+        
+    }
+    #endregion
     private void UIon()// UI 일괄 on
     {
         rejectButton.SetActive(true);

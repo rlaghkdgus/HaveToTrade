@@ -27,6 +27,7 @@ public class TownManager : MonoBehaviour
         }
 
         travel = GetComponent<Travel>();
+        TownGenerate();
     }
 
     public static TownManager Instance

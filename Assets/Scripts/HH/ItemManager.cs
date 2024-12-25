@@ -93,7 +93,7 @@ public class ItemManager : Singleton<ItemManager>
     public void SetSellUI()//판매시 UI
     {
         int randCount;
-        //if(productIndex[productCount] >= playerInventory.inventory.Count)
+        if(productIndex[productCount] >= playerInventory.inventory.Count)
             productIndex[productCount] = Random.Range(0, playerInventory.inventory.Count);
         currentProductIndex = productIndex[productCount];
         if(playerInventory.inventory[currentProductIndex].counts > itemCountLimit)
@@ -292,12 +292,10 @@ public class ItemManager : Singleton<ItemManager>
         switch (Customer.randcusnum)
         {
             case 1:
-                if (buyItem.sort == ItemSorts.food && Customer.buyOrSell == true)
+                if (Customer.buyOrSell == true && buyItem.sort == ItemSorts.food)
                 {
                     itemCountIndex[productCount] = itemCountIndex[productCount] + 5;
                 }
-               // else if (playerItems == null || playerItems.Count == 0)
-                  //  return;
                 else if (Customer.buyOrSell == false && playerInventory.inventory[currentProductIndex].sort == ItemSorts.food)//순서문제. 어짜피 buyorsell이 판매로 지정된이상 playerItem에는 무조건 아이템이 하나는 있으므로.
                 {
                     itemCountIndex[productCount] = itemCountIndex[productCount] + 5;
