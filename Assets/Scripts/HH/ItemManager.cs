@@ -30,6 +30,8 @@ public class ItemManager : Singleton<ItemManager>
     public pItem buyItem;
     private static ItemManager instance;
 
+    public GameObject WeightOverMessage;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -138,6 +140,7 @@ public class ItemManager : Singleton<ItemManager>
             {
                 productCount++;
                 playerInventory.sortWeight[itemSO.items[currentProductIndex].sort].CurrentWeight -= itemTotalWeight;
+                WeightOverMessage.SetActive(true);
                 Debug.LogWarning("Cannot add item");
                 return;
             }

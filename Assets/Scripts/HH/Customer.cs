@@ -51,7 +51,7 @@ public class Customer : MonoBehaviour
     [SerializeField] private GameObject bargainButton;
     [SerializeField] private GameObject rejectButton;
     [Header("마을 버튼")]
-    [SerializeField] GameObject GoTownButton;
+    [SerializeField] GameObject ButtonGroup;
 
     [Header("손님 대화")]
     public TMP_Text talkText; // 대화텍스트
@@ -322,6 +322,7 @@ public class Customer : MonoBehaviour
         if (cusCount <= 0)
         {
             cState.Value = CustomerState.Idle;
+            ButtonGroup.SetActive(true);
         }
         else
         {

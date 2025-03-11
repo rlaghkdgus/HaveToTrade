@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Callbacks;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class Travel : MonoBehaviour
@@ -25,8 +21,6 @@ public class Travel : MonoBehaviour
     private int index_F = 1; // 재생성 위치 지정을 위한 index
     private int index_M = 1;
     private int index_B = 1;
-
-    public GameObject Map; // 맵 프리팹
 
     [Header("길 프리팹(임시)")]
     public GameObject[] Road; // 길 프리팹 배열

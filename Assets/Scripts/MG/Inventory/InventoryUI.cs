@@ -52,10 +52,12 @@ public class InventoryUI : MonoBehaviour
     {
         GameObject S_SlotCopy = Instantiate(S_SlotPrefab, Vector2.zero, Quaternion.identity);
         S_SlotCopy.transform.SetParent(S_Inven.GetChild(0).GetChild(0));
+        S_SlotCopy.transform.localScale = new Vector3 (1f, 1f, 1f);
         S_uiSlots.Add(S_SlotCopy.GetComponent<ItemSlotUI>());
 
         GameObject B_SlotCopy = Instantiate(B_SlotPrefab, Vector2.zero, Quaternion.identity);
         B_SlotCopy.transform.SetParent(B_Inven.GetChild(0).GetChild(0));
+        B_SlotCopy.transform.localScale = new Vector3 (1f, 1f, 1f);
         B_uiSlots.Add(B_SlotCopy.GetComponent<ItemSlotUI>());
     }
 
