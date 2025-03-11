@@ -9,10 +9,10 @@ public class TownManager : MonoBehaviour
     [SerializeField] public TownDB curTown; // 현재 마을 정보
     [SerializeField] private TownDB nextTown; // 다음 마을 정보
 
-    [SerializeField] private GameObject TownClone; // 현재 마을
-    public GameObject GoTradeButton;
+    public GameObject TownClone; // 현재 마을
+    public GameObject ButtonGroup;
     private Travel travel;
-
+    private TownViewChanger changer;
 
     private void Awake()
     {
@@ -27,7 +27,9 @@ public class TownManager : MonoBehaviour
         }
 
         travel = GetComponent<Travel>();
+        changer = GetComponent<TownViewChanger>();
         TownGenerate();
+        changer.ButtonUIUpdate(curTown.TownPrefabs);
     }
 
     public static TownManager Instance
@@ -62,7 +64,7 @@ public class TownManager : MonoBehaviour
             var Map = GameObject.FindWithTag("Map");
             Destroy(Map);
             // 길 생성 실행
-            travel.LoadRoad(TownClone, nextTown.TownPrefab);
+            travel.LoadRoad(TownClone, nextTown.TownPrefabs[0], nextTown);
         }
         else
         {
@@ -73,7 +75,7 @@ public class TownManager : MonoBehaviour
     public void TownGenerate()
     {
         // 현재 마을 동적 생성
-        TownClone = Instantiate<GameObject>(curTown.TownPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        TownClone = Instantiate<GameObject>(curTown.TownPrefabs[changer.currentIndex], new Vector3(0, 0, 0), Quaternion.identity);
         Debug.Log("타운 생성 완료");
     }
 
@@ -82,11 +84,16 @@ public class TownManager : MonoBehaviour
         curTown = nextTown;
         nextTown = null;
         TownClone = GameObject.FindGameObjectWithTag("Town");
-        var MapButton = GameObject.FindWithTag("Canvas").transform.Find("OpenMap");
+        var MapButton = GameObject.FindWithTag("Canvas").transform.Find("ButtonGroup").transform.Find("OpenMap");
         MapButton.gameObject.SetActive(true);
         Debug.Log("업데이트 완료");
-        GoTradeButton.SetActive(true);
-        
+        changer.currentIndex = 0;
+        changer.ButtonUIUpdate(curTown.TownPrefabs);
+        ButtonGroup.SetActive(true);
     }
     
+    public void ViewChangeButtonAction(int index)
+    {
+        changer.ViewChange(index, curTown.TownPrefabs);
+    }
 }

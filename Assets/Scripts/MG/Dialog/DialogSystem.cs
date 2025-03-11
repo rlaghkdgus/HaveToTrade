@@ -21,11 +21,13 @@ public class DialogSystem : MonoBehaviour
 
     [SerializeField] private List<DialogData_S> dialogs; // 대화 정보를 담는 배열
 
+    public TextMeshProUGUI Name;
+    public TextMeshProUGUI Dialog;
     public Image dialogUI;
     public GameObject DialogBG;
 
     [SerializeField] private bool isAutoStart = true; // 자동 시작 여부
-    private bool isFirst = true; // 최초 1회만 호출하기 위한 bool 값
+    [SerializeField] private bool isFirst = true; // 최초 1회만 호출하기 위한 bool 값
     private int currentDialogIndex = -1; // 현재 대사 순번
     private int currentSpeakerIndex = 0; // 현재 화자 speakers 배열 순번
 
@@ -35,21 +37,28 @@ public class DialogSystem : MonoBehaviour
 
     private void Awake()
     {
-        dialogs.Clear();
+        DialogListLoading();
 
-        #region 리스트 선택 방식
+        Setting();
+    }
+
+    public void DialogListLoading() // 리스트 선택 방식
+    {
         // 장점 : 액셀 파일 관리가 편함
         // 단점 : 스크립트 조금씩 수정 필요
+        dialogs.Clear();
+
         var field = DialogDB.GetType().GetField(seletedDialogName);
         if (field != null && field.FieldType == typeof(List<TextData>))
         {
             currentList = (List<TextData>)field.GetValue(DialogDB);
 
             int index = 0;
-            for(int i = 0; i < currentList.Count; ++i)
+            for (int i = 0; i < currentList.Count; ++i)
             {
                 DialogData_S newDialog = new DialogData_S
                 {
+                    speakerIndex = currentList[i].SpeakerIndex,
                     name = currentList[i].Name,
                     dialog = currentList[i].Dialog
                 };
@@ -57,12 +66,14 @@ public class DialogSystem : MonoBehaviour
                 index++;
             }
         }
-        #endregion
+    }
 
-        #region 페이지 하나만 관리하는 방식
+    private void DialogBranchLoading() // 페이지 하나 방식
+    {
         // 장점 : 스크립트 수정 필요 없음
         // 단점 : 모든 대화를 액셀 한 시트에서만 관리해야해서 양이 많으면 힘들수도 있음
         /*
+        dialogs.Clear();
         int index = 0;
         for(int i = 0; i < DialogDB.TextEX.Count; ++i)
         {
@@ -73,91 +84,118 @@ public class DialogSystem : MonoBehaviour
                 index++;
             }
         }*/
-        #endregion
-
-        Setting();
     }
 
     private void Setting()
     {
-        for(int i = 0; i < speakers.Length; ++i)
+        for (int i = 0; i < speakers.Length; ++i)
         {
-            SetActiveObjects(speakers[i], false);
+            SetActiveSpeakers(speakers[i], false);
 
             speakers[i].SpeakerImage.gameObject.SetActive(true);
         }
+        SetActiveTextUI(false);
     }
 
     public bool UpdateDialog()
     {
-        if(isFirst == true)
+        if (isFirst == true)
         {
             Setting();
 
             if (isAutoStart)
             {
                 dialogUI.gameObject.SetActive(true);
+                SetActiveTextUI(true);
                 SetNextDialog();
             }
-            
+
             isFirst = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))/* || Input.GetMouseButtonDown(0))*/
+        while (true)
         {
-            if(isTypingEffect == true)
+            if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && DialogBG.activeSelf)
             {
-                isTypingEffect = false;
-
-                StopCoroutine("OnTypingText");
-                speakers[currentSpeakerIndex].Dialog.text = dialogs[currentDialogIndex].dialog;
-                //speakers[currentSpeakerIndex].Cursor.SetActive(true);
-
-                return false;
-            }
-
-            if(dialogs.Count > currentDialogIndex + 1)
-            {
-                SetNextDialog();
-            }
-            else
-            {
-                for(int i = 0; i < speakers.Length; ++i)
+                if (isTypingEffect == true)
                 {
-                    SetActiveObjects(speakers[i], false);
-                    speakers[i].SpeakerImage.gameObject.SetActive(false);
+                    isTypingEffect = false;
+
+                    StopCoroutine("OnTypingText");
+                    Dialog.text = dialogs[currentDialogIndex].dialog;
+                    //speakers[currentSpeakerIndex].Dialog.text = dialogs[currentDialogIndex].dialog;
+                    //speakers[currentSpeakerIndex].Cursor.SetActive(true);
+
+                    return false;
                 }
-                dialogUI.gameObject.SetActive(false);
-                DialogBG.SetActive(false);
 
-                return true;
+                if (dialogs.Count > currentDialogIndex + 1)
+                {
+                    SetNextDialog();
+                }
+                else
+                {/*
+                    for (int i = 0; i < speakers.Length; ++i)
+                    {
+                        SetActiveSpeakers(speakers[i], false);
+                        speakers[i].SpeakerImage.gameObject.SetActive(false);
+                    }
+                    dialogUI.gameObject.SetActive(false);
+                    DialogBG.SetActive(false);*/
+
+                    TestInit();
+                    return true;
+                }
             }
+            else if (DialogBG.activeSelf == false)
+            {
+                DialogBG.SetActive(true);
+            }
+            return false;
         }
+    }
 
-        return false;
+    public void SetActiveFalseUI()
+    {
+        for (int i = 0; i < speakers.Length; ++i)
+        {
+            SetActiveSpeakers(speakers[i], false);
+            speakers[i].SpeakerImage.gameObject.SetActive(false);
+        }
+        dialogUI.gameObject.SetActive(false);
+        DialogBG.SetActive(false);
+    }
+
+    private void TestInit() // 테스트 메서드
+    {
+        isFirst = true;
+        currentDialogIndex = -1;
+        currentSpeakerIndex = 0;
     }
 
     private void SetNextDialog()
     {
-        SetActiveObjects(speakers[currentSpeakerIndex], false);
+        SetActiveSpeakers(speakers[currentSpeakerIndex], false);
 
         currentDialogIndex++;
 
         currentSpeakerIndex = dialogs[currentDialogIndex].speakerIndex;
 
-        SetActiveObjects(speakers[currentSpeakerIndex], true);
+        SetActiveSpeakers(speakers[currentSpeakerIndex], true);
 
-        speakers[currentSpeakerIndex].Name.text = dialogs[currentDialogIndex].name;
+        //speakers[currentSpeakerIndex].Name.text = dialogs[currentDialogIndex].name;
+        Name.text = dialogs[currentDialogIndex].name;
 
-        speakers[currentSpeakerIndex].Dialog.text = dialogs[currentDialogIndex].dialog;
+        //speakers[currentSpeakerIndex].Dialog.text = dialogs[currentDialogIndex].dialog;
+        Dialog.text = dialogs[currentDialogIndex].dialog;
 
         StartCoroutine("OnTypingText");
     }
 
-    private void SetActiveObjects(Speaker speaker, bool isActive)
+    private void SetActiveSpeakers(Speaker speaker, bool isActive)
     {
-        speaker.Name.gameObject.SetActive(isActive);
-        speaker.Dialog.gameObject.SetActive(isActive);
+        //speaker.Name.gameObject.SetActive(isActive);
+        //speaker.Dialog.gameObject.SetActive(isActive);
 
         //speaker.Cursor.SetActive(false);
 
@@ -166,15 +204,22 @@ public class DialogSystem : MonoBehaviour
         speaker.SpeakerImage.color = color;
     }
 
+    private void SetActiveTextUI(bool isActive)
+    {
+        Name.gameObject.SetActive(isActive);
+        Dialog.gameObject.SetActive(isActive);
+    }
+
     private IEnumerator OnTypingText()
     {
         int index = 0;
 
         isTypingEffect = true;
 
-        while(index <= dialogs[currentDialogIndex].dialog.Length)
+        while (index <= dialogs[currentDialogIndex].dialog.Length)
         {
-            speakers[currentSpeakerIndex].Dialog.text = dialogs[currentDialogIndex].dialog.Substring(0, index);
+            //speakers[currentSpeakerIndex].Dialog.text = dialogs[currentDialogIndex].dialog.Substring(0, index);
+            Dialog.text = dialogs[currentDialogIndex].dialog.Substring(0, index);
 
             index++;
 
@@ -191,8 +236,8 @@ public class DialogSystem : MonoBehaviour
 public struct Speaker
 {
     public Image SpeakerImage;
-    public TextMeshProUGUI Name;
-    public TextMeshProUGUI Dialog;
+    //public TextMeshProUGUI Name;
+    //public TextMeshProUGUI Dialog;
     //public GameObject Cursor;
 }
 

@@ -4,20 +4,35 @@ using UnityEngine;
 
 public class DialogTest : MonoBehaviour
 {
-    [SerializeField] private DialogSystem dialog_1;
+    [SerializeField] private List<DialogSystem> dialogs;
 
-    private bool TestStart = false;
+    [SerializeField] private GameObject FadeUI;
+    [SerializeField] private float FadeTime = 1f;
 
-    private void Update()
+    [SerializeField] private GameObject ButtonGruop;
+
+    public void TestDialog() // 버튼을 누르면 실행
     {
-        if (TestStart)
+        if (dialogs.Count > 0)
         {
-            dialog_1.UpdateDialog();
+            StartCoroutine(DialogPlay());
         }
     }
 
-    public void TestDialog()
+    private IEnumerator DialogPlay()
     {
-        TestStart = true;
+        for (int i = 0; i < dialogs.Count; i++)
+        {
+            yield return new WaitUntil(() => dialogs[i].UpdateDialog());
+            if (i != dialogs.Count - 1)
+            {
+                GameObject FadeInOut = Instantiate(FadeUI);
+                yield return new WaitForSeconds(FadeTime);
+            }
+            dialogs[i].SetActiveFalseUI();
+            Debug.Log("다음 얘기");
+        }
+
+        ButtonGruop.SetActive(true);
     }
 }

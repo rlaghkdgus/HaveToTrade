@@ -35,6 +35,11 @@ public class ListSeleCtor : Editor // 리스트 선택을 위한 유틸 기능
             EditorGUILayout.LabelField("ListData가 설정되지 않았습니다!");
         }
 
+        if (GUILayout.Button("Dialog Load"))
+        {
+            selector.DialogListLoading();
+        }
+
         // 기본 Inspector 그리기
         DrawDefaultInspector();
     }
