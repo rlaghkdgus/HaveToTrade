@@ -22,7 +22,7 @@ MonoBehaviour:
     stuffName: Ham
     sort: 1
     image: {fileID: 21300000, guid: e041c70d3d9242e4d8ee6d4071022e61, type: 3}
-    weight: 50
+    weight: 10
   - price: 500
     stuffName: Sofa
     sort: 3
@@ -37,4 +37,4 @@ MonoBehaviour:
     stuffName: Oats
     sort: 0
     image: {fileID: 21300000, guid: 5d68c3c900b2d2a438a03f1fa386f8bd, type: 3}
-    weight: 30
+    weight: 10
