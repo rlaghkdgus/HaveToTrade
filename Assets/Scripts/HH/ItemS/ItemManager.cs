@@ -113,9 +113,9 @@ public class ItemManager : Singleton<ItemManager>
         int currentPrice;
 
         if (bargainSuccess == true)
-            currentPrice = bargainPrice * itemCountIndex[productCount];
+            currentPrice = bargainPrice * itemCountIndex[productCount] * (int)salePoint(buyItem.sort) / 100;
         else
-           currentPrice = itemSO.items[currentProductIndex].price * itemCountIndex[productCount];
+           currentPrice = itemSO.items[currentProductIndex].price * itemCountIndex[productCount] * (int)salePoint(buyItem.sort) / 100;
 
         if (Player.Instance.money < currentPrice)
         {
@@ -143,6 +143,7 @@ public class ItemManager : Singleton<ItemManager>
             }
             playerInventory.PublicCurrentWeight += over;
         }
+        
         #endregion
 
         Player.Instance.money -= currentPrice; // 물건 비용 지불
@@ -165,19 +166,22 @@ public class ItemManager : Singleton<ItemManager>
             inventoryUI.GenerateSlot();
             inventoryUI.InitUI(true);
         }
+        if(QuestSystem.Instance.currentQuestType == QuestType.Trade)
+            QuestSystem.Instance.QuestProgress(buyItem, itemTotalWeight);
         productCount++;
         buyItem = null;
         BargainClear();
     }
     public void SellProduct()//상품 판매
     {
-        int currentPrice; 
-        if(bargainSuccess == true)
+        int currentPrice;
+        pItem itemToRemove = playerInventory.inventory[currentProductIndex];
+        if (bargainSuccess == true)
             currentPrice = bargainPrice * itemCountIndex[productCount];
         else
             currentPrice = playerInventory.inventory[currentProductIndex].price * itemCountIndex[productCount];
+        
         Player.Instance.money += currentPrice;
-        pItem itemToRemove = playerInventory.inventory[currentProductIndex];
         playerInventory.inventory[currentProductIndex].counts -= itemCountIndex[productCount];
         if (playerInventory.inventory[currentProductIndex].counts <= 0)
         {
@@ -208,7 +212,8 @@ public class ItemManager : Singleton<ItemManager>
                 playerInventory.PublicCurrentWeight -= over;
             }
         }
-
+        if (QuestSystem.Instance.currentQuestType == QuestType.Trade)
+            QuestSystem.Instance.QuestProgress(itemToRemove, itemTotalWeight);
         #endregion
         productCount++;
         BargainClear();
@@ -304,5 +309,29 @@ public class ItemManager : Singleton<ItemManager>
                 }
                 break;
         }
+    }
+    private float salePoint(ItemSorts sorts)
+    {
+        float salePercent = 100.0f;
+      
+        switch(sorts)
+        {
+            case ItemSorts.food:
+                salePercent -=Player.Instance.foodFame.sale;
+                break;
+            case ItemSorts.pFood:
+                salePercent -= Player.Instance.pFoodFame.sale;
+                break;
+            case ItemSorts.accesory:
+                salePercent -= Player.Instance.accesoryFame.sale;
+                break;
+            case ItemSorts.clothes:
+                salePercent -= Player.Instance.clothFame.sale;
+                break;
+            case ItemSorts.furniture:
+                salePercent -= Player.Instance.furnFame.sale;
+                break;
+        }    
+        return salePercent;
     }
 }

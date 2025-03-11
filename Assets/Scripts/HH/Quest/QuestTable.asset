@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd18690d877788469149a9ee8eae449, type: 3}
+  m_Name: QuestTable
+  m_EditorClassIdentifier: 
+  quest:
+  - id: 1
+    questName: aa
+    sort: 0
+    questStuffName: 
+    questInfo: 30
+    reward: 1
+    questText: Food buy 30kg
+    buyOrSell: 1
+    villageType: 0
+    questType: 1
+  - id: 2
+    questName: bb
+    sort: 0
+    questStuffName: 
+    questInfo: 50
+    reward: 2
+    questText: Food buy 50kg
+    buyOrSell: 1
+    villageType: 0
+    questType: 1
+  - id: 3
+    questName: cc
+    sort: 0
+    questStuffName: 
+    questInfo: 70
+    reward: 3
+    questText: Food buy 70kg
+    buyOrSell: 1
+    villageType: 0
+    questType: 1
+  - id: 4
+    questName: dd
+    sort: 0
+    questStuffName: 
+    questInfo: 90
+    reward: 4
+    questText: Food buy 90kg
+    buyOrSell: 1
+    villageType: 0
+    questType: 1
+  - id: 5
+    questName: ee
+    sort: 0
+    questStuffName: Oats
+    questInfo: 50
+    reward: 1
+    questText: Food Delivery(GreStar)
+    buyOrSell: 0
+    villageType: 1
+    questType: 2

@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 [System.Serializable]
@@ -137,6 +135,40 @@ public class InventoryContainer : ScriptableObject
                 float RestoreWeight = itemTotalWeight - Mathf.Abs(over);
                 PublicCurrentWeight -= RestoreWeight;
             }
+        }
+    }
+
+    public void CheckItemWeight(string targetName)
+    {
+        var item = inventory.Find(i => i.stuffName == targetName);
+        if(item != null)
+        {
+            QuestSystem.Instance.deliveryCheckSign = false;
+        }
+        float itemTotalWeight = item.weight * item.counts;
+
+        if(itemTotalWeight >= QuestSystem.Instance.questGoal)
+            QuestSystem.Instance.deliveryCheckSign = true;
+        else
+            QuestSystem.Instance.deliveryCheckSign = false;
+
+    }
+
+    public void QuestItemRemove(string targetName)
+    {
+        var item = inventory.Find(i => i.stuffName == targetName);
+
+        float TargetWeight = 0;
+
+        int requiredItems = Mathf.CeilToInt((QuestSystem.Instance.questGoal - TargetWeight) / item.weight);
+        int itemsToRemove = Mathf.Min(requiredItems, item.counts);
+
+        item.counts -= itemsToRemove;
+
+        
+        if (item.counts <= 0)
+        {
+            inventory.Remove(item);
         }
     }
     #endregion

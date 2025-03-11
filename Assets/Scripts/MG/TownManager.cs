@@ -6,7 +6,7 @@ public class TownManager : MonoBehaviour
 {
     private static TownManager instance;
 
-    [SerializeField] private TownDB curTown; // 현재 마을 정보
+    [SerializeField] public TownDB curTown; // 현재 마을 정보
     [SerializeField] private TownDB nextTown; // 다음 마을 정보
 
     [SerializeField] private GameObject TownClone; // 현재 마을
