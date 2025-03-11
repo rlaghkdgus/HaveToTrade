@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: aTown
   m_EditorClassIdentifier: 
   TownName: a
-  TownRegion: 0
+  TownType: 1
   TownPrefab: {fileID: 5181851120068721351, guid: f06defb450f98d24a927f406fd2daf61, type: 3}

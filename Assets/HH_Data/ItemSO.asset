@@ -21,10 +21,10 @@ MonoBehaviour:
   - price: 300
     stuffName: Bread
     sort: 1
-    image: {fileID: -1199823382, guid: bd0f626d597e93c4181244d1b97f70f3, type: 3}
-    weight: 50
-  - price: 200
-    stuffName: Rice
+    image: {fileID: 21300000, guid: e041c70d3d9242e4d8ee6d4071022e61, type: 3}
+    weight: 10
+  - price: 500
+    stuffName: Sofa
     sort: 3
     image: {fileID: 912289169, guid: 79875e19e6e50124ab39919dfa590a5d, type: 3}
     weight: 70
@@ -36,5 +36,5 @@ MonoBehaviour:
   - price: 150
     stuffName: Oats
     sort: 0
-    image: {fileID: 172274929, guid: 79875e19e6e50124ab39919dfa590a5d, type: 3}
-    weight: 30
+    image: {fileID: 21300000, guid: 5d68c3c900b2d2a438a03f1fa386f8bd, type: 3}
+    weight: 10

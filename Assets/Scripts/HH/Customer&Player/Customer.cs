@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 /*
- * °Å·¡ ÁøÀÔ ½Ã °í°´ÀÇ ¼ö, °Å·¡ ¹°Ç°ÀÇ Á¾·ù ¹× ¼ýÀÚ¸¦ Á¤ÇÒ °ø°£
- * ¼Õ´Ô Çàµ¿ÆÐÅÏ ¿ä¾à : ÀÔÀå(Start) -> ´ë±â(Idle) -> ¾ÆÀÌÅÛ¸Å´ÏÀú¿¡¼­ °¡Á®¿Â ¾ÆÀÌÅÛÀ¸·Î UI¼¼ÆÃ-> ÈïÁ¤(¼±ÅÃ)-> ±¸¸Å or ÆÇ¸Å -> ÅðÀå(End) -> ÀÔÀå, ¼Õ´Ô¼ö ¸¸Å­ ¹Ýº¹
+ * ï¿½Å·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½Å·ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+ * ï¿½Õ´ï¿½ ï¿½àµ¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½(Start) -> ï¿½ï¿½ï¿½(Idle) -> ï¿½ï¿½ï¿½ï¿½ï¿½Û¸Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UIï¿½ï¿½ï¿½ï¿½-> ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)-> ï¿½ï¿½ï¿½ï¿½ or ï¿½Ç¸ï¿½ -> ï¿½ï¿½ï¿½ï¿½(End) -> ï¿½ï¿½ï¿½ï¿½, ï¿½Õ´Ô¼ï¿½ ï¿½ï¿½Å­ ï¿½Ýºï¿½
  */
 [System.Serializable]
 public class customerPrefab
@@ -19,55 +19,56 @@ public class customerPrefab
 }
 public class Customer : MonoBehaviour
 {
-    [Header("¼Õ´Ô¼ö, ÇöÀç´Â ½ÃÀÛ½Ã ·£´ý ÁöÁ¤")]
+    [Header("ï¿½Õ´Ô¼ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½")]
     public int cusCount;
-    [Header("¼Õ´Ô ¼¼ºÎ ¿É¼Ç")]
-    public float speed; //¼Õ´Ô ÀÌµ¿¼Óµµ
-    public float tradeDelay; // ¼Õ´Ô °Å·¡ µô·¹ÀÌ
-    public float rejectDelay; // ¼Õ´Ô °ÅÀý ÈÄ ´ÙÀ½ °Å·¡ µô·¹ÀÌ
-    public float fadeDuration; // ÆäÀÌµå ¾Æ¿ô Áö¼Ó ½Ã°£
-    [Header("ÈïÁ¤ ¼¼ºÎ ¿É¼Ç")]
-    public float initialChance; // ÈïÁ¤ÀÇ ÃÊ±â È®·ü
-    public int bargainPoint; // ÈïÁ¤È®·ü ´ÜÀ§
-    public float bargainChance; // ÇØ´ç ´ÜÀ§¸¦ ³ÑÀ»¶§¸¶´Ù ÈïÁ¤È®·üÀÌ ¸î%¾¿ ¶³¾îÁúÁö
-    [Header("¸î°³ÀÇ Á¾·ù¸¦ °Å·¡ÇÒ°ÇÁö")]
-    public int tradeSortCount; // ¼Õ´ÔÀÌ ¸î°³ÀÇ Á¾·ù¸¦ °Å·¡ÇÒ°ÇÁö
-    [Header("¼Õ´Ô ÇÁ¸®ÆÕ(¼Õ´Ô º° ±â´É ¹× ¿ÜÇü),»ý¼º ¹× ÅðÀå À§Ä¡ ¼³Á¤")]
+    [Header("ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½")]
+    public float speed; //ï¿½Õ´ï¿½ ï¿½Ìµï¿½ï¿½Óµï¿½
+    public float tradeDelay; // ï¿½Õ´ï¿½ ï¿½Å·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public float rejectDelay; // ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public float fadeDuration; // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½")]
+    public float initialChance; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½ È®ï¿½ï¿½
+    public int bargainPoint; // ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public float bargainChance; // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½%ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    [Header("ï¿½î°³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½Ò°ï¿½ï¿½ï¿½")]
+    public int tradeSortCount; // ï¿½Õ´ï¿½ï¿½ï¿½ ï¿½î°³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½Ò°ï¿½ï¿½ï¿½
+    [Header("ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Õ´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½),ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½")]
     public List<customerPrefab> cusList;
-    public List<Transform> customerTransform;// »ý¼º, °Å·¡À§Ä¡, ÅðÀå
+    public List<Transform> customerTransform;// ï¿½ï¿½ï¿½ï¿½, ï¿½Å·ï¿½ï¿½ï¿½Ä¡, ï¿½ï¿½ï¿½ï¿½
 
 
-    [Header("¼Õ´Ô °Å·¡Ã¢")]
+    [Header("ï¿½Õ´ï¿½ ï¿½Å·ï¿½Ã¢")]
     public GameObject CustomerUI;
     public GameObject BuyUI;
     public GameObject SellUI;
     public GameObject BargainUI;
     [SerializeField] private TMP_Text cText;
     [SerializeField] private TMP_Text pTxt;
-    [SerializeField] private TMP_Text pcTxt; // ÇÃ·¹ÀÌ¾î°¡ µé°íÀÖ´Â »óÇ° °³¼ö Ä«¿îÆ®
+    [SerializeField] private TMP_Text pcTxt; // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ®
     [SerializeField] private TMP_InputField bargainField;
     [SerializeField] private Image pImg;
-    [Header("ÈïÁ¤½Ã On/Off ¿ÀºêÁ§Æ®")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ On/Off ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®")]
     [SerializeField] private GameObject bargainButton;
     [SerializeField] private GameObject rejectButton;
-    [Header("¸¶À» ¹öÆ°")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°")]
     [SerializeField] GameObject ButtonGroup;
 
-    [Header("¼Õ´Ô ´ëÈ­")]
-    public TMP_Text talkText; // ´ëÈ­ÅØ½ºÆ®
-    [SerializeField] Transform textTransform;
-    [SerializeField] float typingDelay;
-
-    //static,private ¿ÉÀú¹öÆÐÅÏ º¯¼ö µî ÀÎ½ºÆåÅÍ¿¡ ¾Èº¸ÀÌ´Â ¿ä¼Òµé
-    public Data<CustomerState> cState = new Data<CustomerState>();//»óÅÂº° ÀÌº¥Æ®
+    [Header("ï¿½Õ´ï¿½ ï¿½ï¿½È­")]
+    public TMP_Text talkText; // ï¿½ï¿½È­ï¿½Ø½ï¿½Æ®
+    [SerializeField] Transform textTransform;//ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡
+    [SerializeField] float typingDelay;//Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    [Header("ï¿½Å·ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½")]
+    [SerializeField] GameObject buttonEdit;
+    //static,private ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Î½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½Èºï¿½ï¿½Ì´ï¿½ ï¿½ï¿½Òµï¿½
+    public Data<CustomerState> cState = new Data<CustomerState>();//ï¿½ï¿½ï¿½Âºï¿½ ï¿½Ìºï¿½Æ®
     private GameObject newCustomer;
     private int bargainValue;
     public static int randcusnum = 0;
     public static TMP_Text productTexts;
     public static Image productImages;
-    public static TMP_Text playerCountTexts;// ÇÃ·¹ÀÌ¾î°¡ µé°íÀÖ´Â »óÇ° °³¼ö Ä«¿îÆ®
-    public static TMP_Text costText;//°¡°Ý ÅØ½ºÆ®, product¶û priceÀÇ ¾Õ±ÛÀÚ°¡ °ãÃÄ¼­..
-    public static bool buyOrSell;//ÂüÀÏ¶§±¸¸Å, °ÅÁþÀÏ¶§ÆÇ¸Å
+    public static TMP_Text playerCountTexts;// ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ®
+    public static TMP_Text costText;//ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®, productï¿½ï¿½ priceï¿½ï¿½ ï¿½Õ±ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½Ä¼ï¿½..
+    public static bool buyOrSell;//ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½Ç¸ï¿½
     void Start()
     {
         productTexts = pTxt;
@@ -78,7 +79,7 @@ public class Customer : MonoBehaviour
         Player.Instance.RenewMoney();
         //cState.Value = CustomerState.Start;
     }
-    private void Awake()//»óÅÂº¯È­ ±¸µ¶ À§ÁÖ
+    private void Awake()//ï¿½ï¿½ï¿½Âºï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
         cState.onChange += SetCustomer;
         cState.onChange += CustomerSetItem;
@@ -89,7 +90,7 @@ public class Customer : MonoBehaviour
         cState.onChange += BargainItem;
         cState.onChange += CustomerExit;
     }
-    #region ¹öÆ°À¸·Î Çàµ¿ÆÐÅÏ º¯È­
+    #region ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­
     public void CustomerStart()
     {
         cState.Value = CustomerState.Start;
@@ -112,17 +113,17 @@ public class Customer : MonoBehaviour
         cState.Value = CustomerState.Bargain;
     }
     #endregion
-    #region ¼Õ´Ô Çàµ¿ÆÐÅÏ
+    #region ï¿½Õ´ï¿½ ï¿½àµ¿ï¿½ï¿½ï¿½ï¿½
     private void SetCustomer(CustomerState _cState)
     {
-        if(_cState == CustomerState.Start)//¼Õ´Ô °´Ã¼ »ý¼ºÈÄ ÀÌµ¿
+        if(_cState == CustomerState.Start)//ï¿½Õ´ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
         {
             if(cusCount <= 0)
             {
                 cusCount = Random.Range(3, 6);
             }
             randcusnum = Random.Range(0,cusList.Count);
-            //randcusnum = 1; //Å×½ºÆ®¿ë, ÁÖ¼®ÇØ¾ßÇÔ.
+            //randcusnum = 1; //ï¿½×½ï¿½Æ®ï¿½ï¿½, ï¿½Ö¼ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½.
             int randcusprefab = Random.Range(0, cusList[randcusnum].cusPrefab.Length);
             newCustomer = Instantiate(cusList[randcusnum].cusPrefab[randcusprefab], customerTransform[0]);
             CusBargainPointSet(randcusnum);
@@ -131,10 +132,10 @@ public class Customer : MonoBehaviour
     }
     private void CustomerSetItem(CustomerState _cState)
     {
-        if(_cState == CustomerState.ItemSet)//¼Õ´Ô´ë±â½Ã ÇÃ·¹ÀÌ¾î¿¡°Ô ±¸¸Å/ÆÇ¸Å ÇÒ ¾ÆÀÌÅÛ ¼³Á¤ 
+        if(_cState == CustomerState.ItemSet)//ï¿½Õ´Ô´ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½/ï¿½Ç¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
         {
             int randsort = Random.Range(1, tradeSortCount+1);
-            BuyOrSell();//±¸¸Å or ÆÇ¸Å ·£´ýÀ¸·Î µ¹¸®±â
+            BuyOrSell();//ï¿½ï¿½ï¿½ï¿½ or ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (buyOrSell == true)
                 ItemManager.Instance.RandomSetItem(randsort);
             else
@@ -144,7 +145,7 @@ public class Customer : MonoBehaviour
     }
     private void CustomerSetUI(CustomerState _cState)
     {
-        if(_cState == CustomerState.SetUI)//UI·Î Ç¥Çö ¹× ItemManagerÀÇ productCount·Î ÅðÀå ÆÇ´Ü
+        if(_cState == CustomerState.SetUI)//UIï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ ItemManagerï¿½ï¿½ productCountï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½
         {
             if (buyOrSell == true)
             {
@@ -163,21 +164,21 @@ public class Customer : MonoBehaviour
     }
     private void BuyItem(CustomerState _cState)
     {
-        if(_cState == CustomerState.Buy)//±¸¸Å
+        if(_cState == CustomerState.Buy)//ï¿½ï¿½ï¿½ï¿½
         {
             StartCoroutine(DelayBuy());
         }
     }
     private void SellItem(CustomerState _cState)
     {
-        if(_cState == CustomerState.Sell)//ÆÇ¸Å
+        if(_cState == CustomerState.Sell)//ï¿½Ç¸ï¿½
         {
             StartCoroutine(DelaySell());
         }
     }
     private void RejectItem(CustomerState _cState)
     {
-        if(_cState == CustomerState.Reject)//°ÅÀý
+        if(_cState == CustomerState.Reject)//ï¿½ï¿½ï¿½ï¿½
         {
             StartCoroutine(DelayReject());
         }
@@ -192,17 +193,17 @@ public class Customer : MonoBehaviour
     }
     private void CustomerExit(CustomerState _cState)
     {
-        if(_cState == CustomerState.End)//Á¾·á
+        if(_cState == CustomerState.End)//ï¿½ï¿½ï¿½ï¿½
         {
             initialChance = 100f;
-            StartCoroutine(MoveAndFadeOutCustomer(newCustomer, customerTransform[2].position, fadeDuration)); //ÅðÀå ¹× ÆäÀÌµå ¾Æ¿ô
+            StartCoroutine(MoveAndFadeOutCustomer(newCustomer, customerTransform[2].position, fadeDuration)); //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Æ¿ï¿½
             cusCount--;
             StartCoroutine(TradeEnd());
         }
     }
     #endregion
-    #region ¼Õ´Ô °øÅë ±â´É
-    public void BuyOrSell()//±¸¸Å È¤Àº ÆÇ¸Å ½ÅÈ£(·£´ý)
+    #region ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+    public void BuyOrSell()//ï¿½ï¿½ï¿½ï¿½ È¤ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½È£(ï¿½ï¿½ï¿½ï¿½)
     {
         if (ItemManager.Instance.playerInventory.inventory.Count == 0)
         {
@@ -217,19 +218,19 @@ public class Customer : MonoBehaviour
 
     }
     
-    public void BargainStart()//¹öÆ°À¸·Î ÈïÁ¤½ÃÀÛ
+    public void BargainStart()//ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     {
         StartCoroutine("BargainCycle");
     }
-    IEnumerator BargainCycle()//ÈïÁ¤°úÁ¤
+    IEnumerator BargainCycle()//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     {
-        if (int.TryParse(bargainField.text, out bargainValue))//ÆÄ½Ì
+        if (int.TryParse(bargainField.text, out bargainValue))//ï¿½Ä½ï¿½
         {       
             ItemManager.Instance.SetBargainPrice(initialChance, bargainValue, bargainPoint, bargainChance);
             BargainUI.SetActive(false);
             bargainField.text = "";
             yield return YieldCache.WaitForSeconds(1.0f);
-            if (ItemManager.Instance.bargainSuccess == true)//ÈïÁ¤¼º°ø½Ã UIº¯°æ
+            if (ItemManager.Instance.bargainSuccess == true)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UIï¿½ï¿½ï¿½ï¿½
             {
                 bargainButton.SetActive(false);
                 rejectButton.SetActive(false);
@@ -247,12 +248,12 @@ public class Customer : MonoBehaviour
         {
             Debug.Log("Error");
             yield return null;
-            //Á¤¼ö ÀÌ¿Ü ´Ù¸¥ °ªÀÏ½Ã µ¹¾Æ°¡µµ·Ï
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ï¿½ï¿½
         }
         
         
     }
-    IEnumerator MoveCustomerToPosition(GameObject customer, Vector3 targetPosition)//¼Õ´Ô ÀÔÀå
+    IEnumerator MoveCustomerToPosition(GameObject customer, Vector3 targetPosition)//ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
         while (customer.transform.position != targetPosition)
         {
@@ -261,7 +262,7 @@ public class Customer : MonoBehaviour
         }
         cState.Value = CustomerState.ItemSet;
     }
-    IEnumerator MoveAndFadeOutCustomer(GameObject customer, Vector3 targetPosition, float duration)//¼Õ´ÔÅðÀå
+    IEnumerator MoveAndFadeOutCustomer(GameObject customer, Vector3 targetPosition, float duration)//ï¿½Õ´ï¿½ï¿½ï¿½ï¿½ï¿½
     {
         SpriteRenderer spriteRenderer = customer.GetComponent<SpriteRenderer>();
         Color originalColor = spriteRenderer.color;
@@ -273,24 +274,24 @@ public class Customer : MonoBehaviour
         {
             elapsed += Time.deltaTime;
 
-            // ÀÌµ¿ Ã³¸®
+            // ï¿½Ìµï¿½ Ã³ï¿½ï¿½
             float t = elapsed / duration;
             customer.transform.position = Vector2.Lerp(startPosition, targetPosition, t);
 
-            // ÆäÀÌµå ¾Æ¿ô Ã³¸®
+            // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Æ¿ï¿½ Ã³ï¿½ï¿½
             float alpha = Mathf.Lerp(1f, 0f, t);
             spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
 
             yield return null;
         }
 
-        // ¸¶Áö¸· À§Ä¡¿Í Åõ¸íµµ ¼³Á¤
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         customer.transform.position = targetPosition;
         spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
-        Destroy(customer); // ÆäÀÌµå ¾Æ¿ô ÈÄ ¿ÀºêÁ§Æ® »èÁ¦
+        Destroy(customer); // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Æ¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
     }
-    IEnumerator DelayBuy()//±¸¸ÅÁö¿¬
+    IEnumerator DelayBuy()//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     {
         ItemManager.Instance.BuyProduct();
         CustomerUI.SetActive(false);
@@ -303,7 +304,7 @@ public class Customer : MonoBehaviour
         else
         cState.Value = CustomerState.SetUI;
     }
-    IEnumerator DelaySell()//ÆÇ¸ÅÁö¿¬
+    IEnumerator DelaySell()//ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½
     {
         ItemManager.Instance.SellProduct();
         CustomerUI.SetActive(false);
@@ -315,7 +316,7 @@ public class Customer : MonoBehaviour
         else
             cState.Value = CustomerState.SetUI;
     }
-    IEnumerator TradeEnd()//°Å·¡ Á¾·á
+    IEnumerator TradeEnd()//ï¿½Å·ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
         ItemManager.Instance.ListClear();
         yield return YieldCache.WaitForSeconds(fadeDuration * 1.5f);
@@ -323,15 +324,16 @@ public class Customer : MonoBehaviour
         {
             cState.Value = CustomerState.Idle;
             ButtonGroup.SetActive(true);
+            buttonEdit.SetActive(true);
         }
         else
         {
             cState.Value = CustomerState.Start;
         }
     }
-    IEnumerator DelayReject()//°ÅÀý µô·¹ÀÌ
+    IEnumerator DelayReject()//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     {
-        ItemManager.Instance.productCount++;//°ÅÀý½Ã ´ÙÀ½»óÇ°À¸·Î ³Ñ±è
+        ItemManager.Instance.productCount++;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½
         CustomerUI.SetActive(false);
         if(buyOrSell == true)
             BuyUI.SetActive(false);
@@ -343,7 +345,7 @@ public class Customer : MonoBehaviour
         else
             cState.Value = CustomerState.SetUI;
     }
-    #region ¼Õ´Ô ´ë»ç È¿°ú
+    #region ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ È¿ï¿½ï¿½
     IEnumerator Typing(string talk)
     {
         talkText.text = null;
@@ -356,14 +358,14 @@ public class Customer : MonoBehaviour
         
     }
     #endregion
-    private void UIon()// UI ÀÏ°ý on
+    private void UIon()// UI ï¿½Ï°ï¿½ on
     {
         rejectButton.SetActive(true);
         bargainButton.SetActive(true);
         CustomerUI.SetActive(true);
     }
     #endregion
-    #region ¼Õ´Ô °³ÀÎ ±â´É
+    #region ï¿½Õ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
     private void CusBargainPointSet(int customnum)
     {

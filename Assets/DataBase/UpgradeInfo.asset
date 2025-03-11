@@ -13,25 +13,25 @@ MonoBehaviour:
   m_Name: UpgradeInfo
   m_EditorClassIdentifier: 
   InfoList:
-  - Base: 500
+  - Base: 1000
     Food: 0
     pFood: 0
     Clothes: 0
     Furniture: 0
     Accesory: 0
-  - Base: 600
+  - Base: 3000
     Food: 0
     pFood: 0
     Clothes: 0
     Furniture: 0
     Accesory: 0
-  - Base: 800
+  - Base: 5000
     Food: 0
     pFood: 0
     Clothes: 0
     Furniture: 0
     Accesory: 0
-  - Base: 1050
+  - Base: 7000
     Food: 0
     pFood: 0
     Clothes: 0

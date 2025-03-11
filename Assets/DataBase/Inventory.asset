@@ -16,4 +16,4 @@ MonoBehaviour:
   PublicCurrentWeight: 780
   inventory: []
   UpgradeInfo: {fileID: 11400000, guid: 670bb50a050bc364fa934cb31e4b952c, type: 2}
-  current_Tier: 2
+  current_Tier: 0
