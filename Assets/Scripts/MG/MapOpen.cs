@@ -8,7 +8,8 @@ public class MapOpen : MonoBehaviour
 
     public void MapButton()
     {
-        var map = Instantiate<GameObject>(Map, new Vector3(0, 0, 0), Quaternion.identity);
+        var map = Instantiate<GameObject>(Map);
         map.transform.SetParent(GameObject.FindWithTag("Canvas").transform);
+        map.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     }
 }

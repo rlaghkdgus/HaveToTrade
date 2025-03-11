@@ -452,15 +452,13 @@ MonoBehaviour:
   ForwardList: []
   MiddleList: []
   BackList: []
-  Map: {fileID: 0}
-  Road:
-  - {fileID: 9129807142950922616, guid: 03c20fe7bb8043842af4fd4d664eb88e, type: 3}
-  - {fileID: 7510073932901682117, guid: bbbd325b85093be40992b41ab5241b7b, type: 3}
-  - {fileID: 1845644765570509702, guid: d6c95dedbb8c9e24f976e9d093adf525, type: 3}
   OnMove: 0
   curTownClone: {fileID: 0}
   nextTown: {fileID: 0}
   nextTownClone: {fileID: 0}
+  RandomRoad: 
+  fadeUI: {fileID: 0}
+  FadeTime: 1
 --- !u!114 &88943093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,7 +474,7 @@ MonoBehaviour:
   curTown: {fileID: 11400000, guid: bd64fa1ba5265a343aee4201a59be1d8, type: 2}
   nextTown: {fileID: 0}
   TownClone: {fileID: 0}
-  GoTradeButton: {fileID: 990405152}
+  ButtonGroup: {fileID: 0}
 --- !u!4 &88943094
 Transform:
   m_ObjectHideFlags: 0
@@ -651,7 +649,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b41c47de5b94bf4c9332deb4b274b17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialog_1: {fileID: 1949786926}
+  dialogs: []
+  FadeUI: {fileID: 0}
+  FadeTime: 1
+  ButtonGruop: {fileID: 0}
 --- !u!1 &114449731
 GameObject:
   m_ObjectHideFlags: 0
@@ -4780,7 +4781,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6977296053948334347, guid: 9fa885bc7c4b23c4a8c64080f35f317e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0000009696267
+      value: 0.00021262043
       objectReference: {fileID: 0}
     - target: {fileID: 6977296054373911116, guid: 9fa885bc7c4b23c4a8c64080f35f317e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -7018,15 +7019,14 @@ MonoBehaviour:
   seletedDialogName: TextEX2
   speakers:
   - SpeakerImage: {fileID: 1367793543}
-    Name: {fileID: 2065561161}
-    Dialog: {fileID: 2065561160}
   - SpeakerImage: {fileID: 2128108442}
-    Name: {fileID: 2065561161}
-    Dialog: {fileID: 2065561160}
   dialogs: []
+  Name: {fileID: 0}
+  Dialog: {fileID: 0}
   dialogUI: {fileID: 2065561162}
   DialogBG: {fileID: 1346053492}
   isAutoStart: 1
+  isFirst: 1
   typingSpeed: 0.1
   isTypingEffect: 0
 --- !u!4 &1949786927
@@ -7217,28 +7217,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2099678451679153374, guid: a44044167b4e6b24eb8e4d7c6f3a13d9, type: 3}
   m_PrefabInstance: {fileID: 2065561158}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2065561160 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2099678452210758188, guid: a44044167b4e6b24eb8e4d7c6f3a13d9, type: 3}
-  m_PrefabInstance: {fileID: 2065561158}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2065561161 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2099678451979421694, guid: a44044167b4e6b24eb8e4d7c6f3a13d9, type: 3}
-  m_PrefabInstance: {fileID: 2065561158}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2065561162 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2099678451679153375, guid: a44044167b4e6b24eb8e4d7c6f3a13d9, type: 3}

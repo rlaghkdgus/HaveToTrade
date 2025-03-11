@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +8,9 @@ public class Travel : MonoBehaviour
     [SerializeField] private float interval = 17.8f; // 배경 재생성 간격
 
     [Header("각 레이어 속도, F = 맨앞, M = 중간, B = 맨뒤")]
-    [SerializeField] private float speed_F = 4f; // 맨 앞 레이어 속도
-    [SerializeField] private float speed_M = 3f; // 중간 레이어 속도
-    [SerializeField] private float speed_B = 2f; // 맨 뒤 레이어 속도
+    [SerializeField] private float speed_F = 8f; // 맨 앞 레이어 속도
+    [SerializeField] private float speed_M = 7f; // 중간 레이어 속도
+    [SerializeField] private float speed_B = 6f; // 맨 뒤 레이어 속도
 
     [Header("다음 마을 생성 타이밍")]
     [SerializeField] private int NextIndex = 0; // 길 생성을 멈추고 다음 마을을 생성할 타이밍을 재는 변수
@@ -24,22 +23,24 @@ public class Travel : MonoBehaviour
     private int index_M = 1;
     private int index_B = 1;
 
-    public GameObject Map; // 맵 프리팹
-
-    [Header("길 프리팹(임시)")]
-    public GameObject[] Road; // 길 프리팹 배열
-
     [Header("마을 이동, 생성 관련")]
     [SerializeField] private bool OnMove = false;
     [SerializeField] private GameObject curTownClone;
     [SerializeField] private GameObject nextTown;
     public GameObject nextTownClone;
 
-    //public event Action MoveCompleted;
+    [SerializeField] private List<int> RandomRoad;
 
-    public void CombinationRoad()
+    [Header("페이드 인/아웃")]
+    [SerializeField] private GameObject fadeUI;
+    [SerializeField] private float FadeTime = 1f;
+
+    private void CombinationRoad(TownDB nextTownDB)
     {
-        // 길 배경 조합 랜덤 선택
+        RandomRoad.Clear();
+        RandomRoad.Add(Random.Range(0, nextTownDB.RoadPrefabs_F.Count));
+        RandomRoad.Add(Random.Range(0, nextTownDB.RoadPrefabs_M.Count));
+        RandomRoad.Add(Random.Range(0, nextTownDB.RoadPrefabs_B.Count));
     }
 
     private void CopyRoad(GameObject clone, int type) // forward = 0, middle = 1, back = 2
@@ -66,14 +67,15 @@ public class Travel : MonoBehaviour
         SortBG(type);
     }
 
-    public void LoadRoad(GameObject curTown, GameObject nextTown)
+    public void LoadRoad(GameObject curTown, GameObject nextTown, TownDB nextTownDB)
     {
-        CopyRoad(Road[2], 2);
-        CopyRoad(Road[1], 1);
-        CopyRoad(Road[0], 0);
+        CombinationRoad(nextTownDB);
+        CopyRoad(nextTownDB.RoadPrefabs_F[RandomRoad[0]], 0);
+        CopyRoad(nextTownDB.RoadPrefabs_M[RandomRoad[1]], 1);
+        CopyRoad(nextTownDB.RoadPrefabs_B[RandomRoad[2]], 2);
         curTownClone = curTown;
         this.nextTown = nextTown;
-        OnMove = true;
+        StartCoroutine(MoveRoad());
     }
 
     private void InitRoad()
@@ -81,13 +83,17 @@ public class Travel : MonoBehaviour
         ForwardList.Clear();
         MiddleList.Clear();
         BackList.Clear();
+        RandomRoad.Clear();
 
         GameObject[] RoadObj = GameObject.FindGameObjectsWithTag("Road");
-        foreach(GameObject obj in RoadObj)
+        foreach (GameObject obj in RoadObj)
         {
             Destroy(obj);
         }
         NextIndex = 0;
+        index_F = 1;
+        index_M = 1;
+        index_B = 1;
         curTownClone = null;
         nextTown = null;
         nextTownClone = null;
@@ -116,28 +122,29 @@ public class Travel : MonoBehaviour
         }
     }
 
+    private IEnumerator MoveRoad()
+    {
+        GameObject fadeInOut = Instantiate(fadeUI);
+        yield return new WaitForSeconds(FadeTime);
+        if (curTownClone != null)
+        {
+            Destroy(curTownClone);
+        }
+        OnMove = true;
+    }
+
     private void Update()
     {
-        if(OnMove)
+        if (OnMove)
             MoveBackGround();
     }
 
     private void MoveBackGround()
     {
-        if (curTownClone != null)
-        {
-            curTownClone.transform.localPosition += Vector3.left * Time.deltaTime * speed_F;
-            if (curTownClone.transform.localPosition.x <= -interval)
-            {
-                // 범위 벗어날 시 파괴
-                Destroy(curTownClone);
-            }
-        }
-
         for (int i = 0; i < ForwardList.Count; i++)
         {
             ForwardList[i].transform.localPosition += Vector3.left * Time.deltaTime * speed_F;
-            if(NextIndex < 2)
+            if (NextIndex < 2)
             {
                 if (ForwardList[i].transform.localPosition.x <= -interval)
                 {
@@ -146,7 +153,7 @@ public class Travel : MonoBehaviour
                     NextIndex++;
                 }
             }
-            else if(nextTownClone == null)
+            else if (nextTownClone == null)
             {
                 nextTownClone = Instantiate<GameObject>(nextTown, new Vector3(ForwardList[index_F].transform.localPosition.x + interval, 0f, 0f), Quaternion.identity);
             }
@@ -181,7 +188,6 @@ public class Travel : MonoBehaviour
                 InitRoad();
 
                 TownManager.Instance.UpdateTown();
-                //MoveCompleted?.Invoke();
             }
         }
     }
