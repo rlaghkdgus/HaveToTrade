@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Dummy_TownMoveMovw.unity
+    guid: 4bf41c59e248a13418cccdd7a4cb026e
   m_configObjects: {}

@@ -55,8 +55,8 @@ public class Customer : MonoBehaviour
 
     [Header("손님 대화")]
     public TMP_Text talkText; // 대화텍스트
-    [SerializeField] Transform textTransform;
-    [SerializeField] float typingDelay;
+    [SerializeField] Transform textTransform;//대화생성위치
+    [SerializeField] float typingDelay;//타이핑 간격
     [Header("거래 후 버튼 관리")]
     [SerializeField] GameObject buttonEdit;
     //static,private 옵저버패턴 변수 등 인스펙터에 안보이는 요소들

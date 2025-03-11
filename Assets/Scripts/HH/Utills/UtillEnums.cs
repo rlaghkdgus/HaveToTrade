@@ -25,3 +25,16 @@ public enum CustomerState
     End,
 }
 
+public enum QuestType
+{
+    Idle,
+    Trade,
+    Delivery
+}
+public enum VillageType
+{
+    Idle,
+    GreStar,
+    Smokian
+}
+
